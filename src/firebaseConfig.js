@@ -7,7 +7,7 @@ const firebaseConfig = {
     projectId: "aeneta-74130",
     storageBucket: "aeneta-74130.appspot.com",
     messagingSenderId: "1027744575211",
-    appId: "1:1027744575211:web:77b894f68d7f769ba818ae",
+    appId: "1:1027744575211:web:77b894f68d7f769ba818ae ",
     measurementId: "G-J2DEVPJBC3"
   };
 
