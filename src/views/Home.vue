@@ -4,8 +4,8 @@
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-outline-primary p-3" for="btnradio1">Busqueda básica</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-outline-primary p-3" for="btnradio2">Busqueda avanzada</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnBusqueda" autocomplete="off">
+            <label class="btn btn-outline-primary p-3" for="btnBusqueda">Busqueda avanzada</label>
         </div>
      </div>
      <div>
