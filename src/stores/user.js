@@ -13,7 +13,7 @@ export const useUserStore = defineStore("userStore", {
     state: () => ({
         userData: null,
         loadingUser: false,
-        loadingSession: false,
+        loadingSession: true,
     }),
     actions: {
         async registerUser(email, password) {
@@ -61,7 +61,27 @@ export const useUserStore = defineStore("userStore", {
                 console.log(error);
             }
         },
-        currentUser() {
+        // currentUser() {
+        //     return new Promise((resolve, reject) => {
+        //         const unsuscribe = onAuthStateChanged(
+        //             auth,
+        //             (user) => {
+        //                 if (user) {
+        //                     this.userData = {
+        //                         email: user.email,
+        //                         uid: user.uid,
+        //                     };
+        //                 } else {
+        //                     this.userData = null;
+        //                 }
+        //                 resolve(user);
+        //             },
+        //             (e) => reject(e)
+        //         );
+        //         unsuscribe();
+        //     });
+        // },
+        async currentUser() {
             return new Promise((resolve, reject) => {
                 const unsuscribe = onAuthStateChanged(
                     auth,
@@ -74,11 +94,12 @@ export const useUserStore = defineStore("userStore", {
                         } else {
                             this.userData = null;
                         }
+                        this.loadingSession = false; // Cambia a false cuando el estado de autenticación se ha comprobado
                         resolve(user);
                     },
                     (e) => reject(e)
                 );
-                unsuscribe();
+                // No llames a unsuscribe aquí
             });
         },
     },

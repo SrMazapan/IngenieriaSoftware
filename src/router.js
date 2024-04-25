@@ -6,6 +6,9 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import RestorePass from '../src/views/RestorePass.vue'
 import VerifyEmail from './views/VerifyEmail.vue'
+import BusquedaBasica from "./views/BusquedaBasica.vue";
+import BusquedaAvanzada from "./views/BusquedaAvanzada.vue";
+
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();
@@ -25,6 +28,8 @@ const routes = [
     { path: "/register", component: Register },
     { path: "/restorePassword", component: RestorePass },
     { path: "/verifyEmail", component: VerifyEmail },
+    { path: "/busquedaBasica", component: BusquedaBasica },
+    { path: "/busquedaAvanzada", component: BusquedaAvanzada },
 ];
 
 const router = createRouter({
