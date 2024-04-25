@@ -5,9 +5,9 @@
         <div class="card-body">
             <form @submit.prevent="handleSubmit">
                 <fieldset>
-                    <legend class="card-title" style="text-align: center;">Busqueda básica</legend>
+                    <legend class="card-title" style="text-align: center;">Busqueda Avanzada</legend>
                     <div class="mb-3">
-                    <label for="TextInput" class="form-label" >Título de la tesis que desea buscar</label>
+                    <label for="TextInput" class="form-label" >Escriba una palabra o frase</label>
                     <input type="text" id="TextInput" class="form-control" placeholder="Escribe una palabra que se relacione con tu búsqueda" v-model="word">
                     </div>
                     <div class="mb-3">
@@ -41,11 +41,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import buttonSearch from "../components/buttonSearch.vue";
-import ButtonSearch from "../components/buttonSearch.vue";
-// import { useUserStore } from "../stores/user";
-// const userStore = useUserStore();
+    import { ref } from "vue"
+    import ButtonSearch from "../components/buttonSearch.vue";
 
 const word = ref("")
 const searchField = ref("")
@@ -61,19 +58,19 @@ const handleSubmit = async () => {
     return
   }
 
-  if (!searchField.value) {
+  if (searchField.value === "") {
     errorMessage.value = "Por favor, selecciona un campo de búsqueda."
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
   }
 
-  if (!startYear.value) {
+  if (startYear.value === "") {
     errorMessage.value = "Por favor, ingresa un año de inicio."
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
   }
 
-  if (!endYear.value) {
+  if (endYear.value === "") {
     errorMessage.value = "Por favor, ingresa un año de fin."
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
@@ -84,7 +81,8 @@ const handleSubmit = async () => {
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
   }
-
+  
+  // Aquí va el resto de tu código
 }
 
 </script>

@@ -34,10 +34,16 @@
   
 
 
-<script setup>
-import {useUserStore} from './stores/user'
-const userStore = useUserStore()
-</script>
+  <script setup>
+  import { onMounted } from 'vue';
+  import { useUserStore } from './stores/user';
+  
+  const userStore = useUserStore();
+  
+  onMounted(() => {
+    userStore.currentUser();
+  });
+  </script>
 
 <style>
   /* .btn-custom{
