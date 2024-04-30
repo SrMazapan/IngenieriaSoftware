@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.11.3",
     "bootstrap-vue": "^2.23.1",
     "firebase": "^9.23.0",
     "pinia": "^2.0.11",
