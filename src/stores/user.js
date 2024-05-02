@@ -87,6 +87,7 @@ export const useUserStore = defineStore("userStore", {
                     auth,
                     (user) => {
                         if (user) {
+                            console.log(user);
                             this.userData = {
                                 email: user.email,
                                 uid: user.uid,
