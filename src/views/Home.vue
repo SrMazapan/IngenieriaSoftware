@@ -7,7 +7,15 @@
         <p class="lead text-muted">El Repositorio escolar es una plataforma digital que proporciona acceso abierto 
             en texto completo a diversos recursos de información académica. En el Repositorio se pueden consultar tesis 
             elaboradas en esta institucion de educación superior. Navega por nuestras secciones y descubre todo lo que 
-            tenemos para ofrecerte.</p>
+            tenemos para ofrecerte.</p>      
+            <p v-if="dataBaseStore.loadingDoc">Loading Docs...</p>  
+            <ul v-else>
+                <li v-for="item of dataBaseStore.documents" :key="item.id">
+                    {{ item.id }} - {{ item.name }}
+                    <br> 
+                    {{ item.short }} 
+                </li>
+            </ul>
     </div>
     <div class="d-flex flex-column text-center">
         <hr class="my-4">
@@ -15,8 +23,12 @@
 </template>
 
 <script setup>
-import ButtonSearch from '../components/buttonSearch.vue';
+import ButtonSearch from '../components/ButtonSearch.vue';
 import { useUserStore } from '../stores/user';
+import { useDataBaseStore } from '../stores/dataBase';
+ 
 const userStore = useUserStore()
+const dataBaseStore = useDataBaseStore();
 
+dataBaseStore.getUrls();
 </script>
