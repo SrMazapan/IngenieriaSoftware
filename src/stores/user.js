@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import router from "../router";
+import { useDataBaseStore } from './dataBase'
 
 export const useUserStore = defineStore("userStore", {
     state: () => ({
@@ -53,6 +54,9 @@ export const useUserStore = defineStore("userStore", {
             }
         },
         async logoutUser() {
+            const dataBaseStore = useDataBaseStore();
+            dataBaseStore.$reset();
+
             try {
                 await signOut(auth);
                 this.userData = null;
@@ -61,26 +65,7 @@ export const useUserStore = defineStore("userStore", {
                 console.log(error);
             }
         },
-        // currentUser() {
-        //     return new Promise((resolve, reject) => {
-        //         const unsuscribe = onAuthStateChanged(
-        //             auth,
-        //             (user) => {
-        //                 if (user) {
-        //                     this.userData = {
-        //                         email: user.email,
-        //                         uid: user.uid,
-        //                     };
-        //                 } else {
-        //                     this.userData = null;
-        //                 }
-        //                 resolve(user);
-        //             },
-        //             (e) => reject(e)
-        //         );
-        //         unsuscribe();
-        //     });
-        // },
+
         async currentUser() {
             return new Promise((resolve, reject) => {
                 const unsuscribe = onAuthStateChanged(
@@ -94,13 +79,14 @@ export const useUserStore = defineStore("userStore", {
                             };
                         } else {
                             this.userData = null;
+                            const dataBaseStore = useDataBaseStore();
+                            dataBaseStore.$reset();
                         }
-                        this.loadingSession = false; // Cambia a false cuando el estado de autenticación se ha comprobado
+                        this.loadingSession = false; 
                         resolve(user);
                     },
                     (e) => reject(e)
                 );
-                // No llames a unsuscribe aquí
             });
         },
     },

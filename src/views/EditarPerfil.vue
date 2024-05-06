@@ -1,13 +1,13 @@
 <template>
     
     <div class="d-flex justify-content-center">
-        <div class="card mt-5" style="width: 33rem;">
+        <div class="card m-3" style="width: 33rem;">
             <div class="card-body">
                 <h1 class="card-title" style="text-align: center;">Editar Perfil</h1>
                 <form @submit.prevent="handleSubmit">
                     <div class="mb-3">
                         <label for="loginEmail" class="form-label">Nombre (s)</label>
-                        <input type="email" class="form-control input-reducido" id="loginEmail" placeholder="Ingresar nombre (s)" v-model.trim="email">
+                        <input type="text" class="form-control input-reducido" id="loginEmail" placeholder="Ingresar nombre (s)" v-model.trim="email">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido Paterno</label>
