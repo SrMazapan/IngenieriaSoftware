@@ -1,6 +1,7 @@
 <template>
     
     <div class="d-flex justify-content-center">
+        <!-- <div class="card m-3" style="width: 50rem;"></div> -->
         <div class="card m-3" style="width: 50rem;">
             <div class="card-body">
                 <div class="d-flex justify-content-center" style="left: 500px; top: 50%;" >
@@ -13,7 +14,7 @@
                 <form @submit.prevent="handleSubmit">
                     <div class="mb-3">
                         <label for="loginEmail" class="form-label">Nombre (s)</label>
-                        <input type="email" class="form-control input-reducido" id="loginEmail" placeholder="Ingresar nombre (s)" v-model.trim="email">
+                        <input type="text" class="form-control input-reducido" id="loginEmail" placeholder="Ingresar nombre (s)" v-model.trim="email">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido Paterno</label>
