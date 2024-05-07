@@ -18,24 +18,24 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido Paterno</label>
-                        <input type="text" class="form-control input-reducido" placeholder="Ingrese apellido paterno" v-model.trim="password">
+                        <input type="text" class="form-control input-reducido" placeholder="Ingrese apellido paterno">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Apellido Materno</label>
-                        <input type="text" class="form-control input-reducido" placeholder="Ingrese contraseña" v-model.trim="password">
+                        <input type="text" class="form-control input-reducido" placeholder="Ingrese contraseña">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Fecha de nacimiento</label>
-                        <input type="date" class="form-control input-reducido" v-model.trim="password">
+                        <input type="date" class="form-control input-reducido">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Rol</label>
                         <div>
-                            <input type="radio" id="estudiante" value="Estudiante" v-model="picked" />
+                            <input type="radio" id="estudiante" value="Estudiante" />
                             <label for="estudiante">Estudiante</label>
                         </div>
                         <div>
-                            <input type="radio" id="profesional" value="Profesional" v-model="picked" />
+                            <input type="radio" id="profesional" value="Profesional" />
                             <label for="profesional">Profesional</label>
                         </div>
                     </div>
