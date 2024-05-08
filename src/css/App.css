@@ -11,3 +11,13 @@
     z-index: 9999;
   }
   
+  .btn-custom {
+    width: 100px; /* Ancho del botón */
+    height: 100px; /* Altura del botón */
+    padding: 20px; /* Relleno interno del botón */
+  }
+  
+  /* Estilos personalizados para el icono */
+  .icon-custom {
+    font-size: 2.5rem; /* Tamaño del icono */
+  }

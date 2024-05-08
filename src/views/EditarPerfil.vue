@@ -1,8 +1,15 @@
 <template>
     
     <div class="d-flex justify-content-center">
-        <div class="card m-3" style="width: 33rem;">
+        <!-- <div class="card m-3" style="width: 50rem;"></div> -->
+        <div class="card m-3" style="width: 50rem;">
             <div class="card-body">
+                <div class="d-flex justify-content-center" style="left: 500px; top: 50%;" >
+                    <label for="profilePicInput" class="btn btn-outline-secondary rounded-circle btn-custom">
+                        <i class="bi bi-person-up icon-custom"></i>
+                    </label>
+                    <!--<input id="profilePicInput" type="file" style="display: none;" @change="handleProfilePicChange">-->
+                </div>
                 <h1 class="card-title" style="text-align: center;">Editar Perfil</h1>
                 <form @submit.prevent="handleSubmit">
                     <div class="mb-3">
@@ -37,14 +44,24 @@
             </div>
         </div>
     </div>
-    <div class="position-fixed" style="left: 200px; top: 50%;">
-        <label for="profilePicInput" class="btn btn-outline-secondary rounded-circle btn-xxl">
-            <i class="bi bi-person-up"></i>
-        </label>
-        <!--<input id="profilePicInput" type="file" style="display: none;" @change="handleProfilePicChange">-->
+    <div>
     </div>
+    
 </template>
 
 <script setup>
     
 </script>
+
+<style>
+    .btn-custom {
+  width: 100px; /* Ancho del botón */
+  height: 100px; /* Altura del botón */
+  padding: 20px; /* Relleno interno del botón */
+}
+
+/* Estilos personalizados para el icono */
+.icon-custom {
+  font-size: 2.5rem; /* Tamaño del icono */
+}
+</style>
