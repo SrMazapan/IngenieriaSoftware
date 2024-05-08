@@ -7,11 +7,7 @@
               <fieldset>
                   <legend class="card-title" style="text-align: center;">Busqueda Avanzada</legend>
                   <div class="mb-3">
-                    <label for="TextInput" class="form-label" >Escriba una palabra o frase</label>
-                    <input type="text" id="TextInput" class="form-control" placeholder="Escribe una palabra que se relacione con tu búsqueda" v-model="word">
-                  </div>
-                  <div class="mb-3">
-                    <label for="TextTitle" class="form-label" >Título</label>
+                    <label for="TextTitle" class="form-label" >Título exacto</label>
                     <input type="text" id="TextTitle" class="form-control" placeholder="Título o tema" v-model="title">
                   </div>
                   <div class="mb-3">
@@ -19,8 +15,8 @@
                     <input type="text" id="TextAutor" class="form-control" placeholder="Autor de la tesis" v-model="autor">
                   </div>
                   <div class="mb-3">
-                    <label for="TextMateria" class="form-label" >Materia</label>
-                    <input type="text" id="TextMateria" class="form-control" placeholder="Materia a la que pertenece" v-model="materia">
+                    <label for="TextMateria" class="form-label" >Sinodal o tutor</label>
+                    <input type="text" id="TextMateria" class="form-control" placeholder="Materia a la que pertenece" v-model="tutor">
                   </div>
                   <div class="mb-3">
                     <label for="startYear" class="form-label">Desde el año: </label>
@@ -44,12 +40,11 @@
 
 <script setup>
   import { ref } from "vue"
-  import ButtonSearch from "../components/buttonSearch.vue";
+  import ButtonSearch from "../components/ButtonSearch.vue";
 
-const word = ref("")
 const title = ref("")
 const autor = ref("")
-const materia = ref("")
+const tutor = ref("")
 const startYear = ref("")
 const endYear = ref("")
 const errorMessage = ref("")

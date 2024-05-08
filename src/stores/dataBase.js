@@ -36,11 +36,13 @@ export const useDataBaseStore = defineStore('dataBase', {
             this.loadingDoc = false;   
         }
        },
-       async addUrl(name){
+       async addUrl(documentData){
         try{
             const objetoDoc = {
-                name: name,
-                short: nanoid(6),
+                name: documentData.url,
+                title: documentData.title,
+                tutor: documentData.tutor,
+                year: documentData.year,
                 user: auth.currentUser.uid,
             }
             const docRef = await addDoc(collection(db, "urls"), objetoDoc)

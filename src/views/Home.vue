@@ -11,9 +11,15 @@
             <p v-if="dataBaseStore.loadingDoc">Loading Docs...</p>  
             <ul v-else>
                 <li v-for="item of dataBaseStore.documents" :key="item.id">
-                    {{ item.id }} - {{ item.name }}
+                    <!-- {{ item.id }}
+                    <br> -->
+                    {{ item.name }}
                     <br> 
-                    {{ item.short }} 
+                    {{ item.title }}
+                    <br> 
+                    {{ item.tutor }} 
+                    <br> 
+                    {{ item.year }}
                 </li>
             </ul>
     </div>
