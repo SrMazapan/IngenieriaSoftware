@@ -24,11 +24,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, defineEmits } from "vue"
 import ButtonSearch from "../components/ButtonSearch.vue";
-// import { useUserStore } from "../stores/user";
-// const userStore = useUserStore();
 
+const emit = defineEmits(['buscar-basica']);
 const word = ref("")
 const errorMessage = ref("")
 
@@ -39,7 +38,7 @@ if (!word.value) {
   setTimeout(() => {errorMessage.value = ''}, 2000)
   return
 }
-
+emit('buscar-basica', word.value);
 }
 
 </script>

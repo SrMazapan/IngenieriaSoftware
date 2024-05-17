@@ -11,6 +11,9 @@
                                 <input type="text" placeholder="Ingrese el titulo exacto" v-model="title">
                             </div>
                             <div class="mb-3">
+                                <input type="text" placeholder="Ingrese el nombre del autor o autores" v-model="autor">
+                            </div>
+                            <div class="mb-3">
                                 <input type="text" placeholder="Ingrese el nombre del tutor o sinodal encargado" v-model="tutor">
                             </div>
                             <div class="mb-3">
@@ -31,14 +34,17 @@
     const dataBaseStore = useDataBaseStore();
     const url = ref('');
     const title = ref('');
+    const autor = ref('');
     const tutor = ref('');
     const year = ref('');
+    
     
 
     const handleSubmit = () => {
         const documentData = {
         url: url.value,
         title: title.value,
+        autor: autor.value,
         tutor: tutor.value,
         year: year.value
     };

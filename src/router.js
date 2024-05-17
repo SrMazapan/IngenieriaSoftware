@@ -10,6 +10,7 @@ import BusquedaBasica from "./views/BusquedaBasica.vue";
 import BusquedaAvanzada from "./views/BusquedaAvanzada.vue";
 import EditarPerfil from "./views/EditarPerfil.vue";
 import AddDocument from "./views/AddDocument.vue";
+import VistaDocs from "./views/VistaDocs.vue";
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();
@@ -29,10 +30,12 @@ const routes = [
     { path: "/register", component: Register },
     { path: "/restorePassword", component: RestorePass },
     { path: "/verifyEmail", component: VerifyEmail },
-    { path: "/busquedaBasica", component: BusquedaBasica },
-    { path: "/busquedaAvanzada", component: BusquedaAvanzada },
+    { path: "/busquedaBasica", component: BusquedaBasica, beforeEnter: requireAuth },
+    { path: "/busquedaAvanzada", component: BusquedaAvanzada, beforeEnter: requireAuth },
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
-    { path: "/addDocument", component: AddDocument },
+    { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
+    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireAuth },
+    
 ];
 
 const router = createRouter({
