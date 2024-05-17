@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-  import { ref } from "vue"
+  import { ref, defineEmits } from "vue"
   import ButtonSearch from "../components/ButtonSearch.vue";
 
 const title = ref("")
@@ -48,10 +48,11 @@ const tutor = ref("")
 const startYear = ref("")
 const endYear = ref("")
 const errorMessage = ref("")
+const emit = defineEmits(['buscar-avanzada']);
 
 const handleSubmit = async () => {
 
-  if (!word.value || !title.value || !autor.value || !materia.value) {
+  if (!title.value || !autor.value || !tutor.value) {
     errorMessage.value = "Todos los campos son obligatorios."
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
@@ -74,6 +75,14 @@ const handleSubmit = async () => {
     setTimeout(() => {errorMessage.value = ''}, 2000)
     return
   }
+  const criterios = {
+    title: title.value,
+    autor: autor.value,
+    tutor: tutor.value,
+    startYear: startYear.value,
+    endYear: endYear.value
+  };
+  emit('buscar-avanzada', criterios);
 }
 
 </script>
