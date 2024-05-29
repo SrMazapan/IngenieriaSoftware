@@ -1,5 +1,6 @@
 <template>
   <ButtonSearch/>
+  
   <div class="d-flex justify-content-center">
   <div class="card m-3" style="width: 100%; max-width: 600px;">
       <div class="card-body">
@@ -24,12 +25,14 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from "vue"
+import { ref } from "vue"
 import ButtonSearch from "../components/ButtonSearch.vue";
+import { useDataBaseStore } from "../stores/dataBase";
+import router from "../router";
 
-const emit = defineEmits(['buscar-basica']);
 const word = ref("")
 const errorMessage = ref("")
+const dataBaseStore =   useDataBaseStore();
 
 const handleSubmit = async () => {
 
@@ -38,7 +41,9 @@ if (!word.value) {
   setTimeout(() => {errorMessage.value = ''}, 2000)
   return
 }
-emit('buscar-basica', word.value);
+await dataBaseStore.searchBasic(word.value);
+router.push('/vistaDocs');
 }
+
 
 </script>

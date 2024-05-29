@@ -23,6 +23,13 @@ const requireAuth = async (to, from, next) => {
     }
     userStore.loadingSession = false;
 };
+const requireSearchResults = (to, from, next) => {
+    if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
+        next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
+    } else {
+        next("/"); // Redirigir al usuario a la página principal u otra página adecuada
+    }
+};
 
 const routes = [
     { path: "/", component: Home, beforeEnter: requireAuth },
@@ -34,7 +41,7 @@ const routes = [
     { path: "/busquedaAvanzada", component: BusquedaAvanzada, beforeEnter: requireAuth },
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
     { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
-    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireAuth },
+    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireSearchResults },
     
 ];
 
