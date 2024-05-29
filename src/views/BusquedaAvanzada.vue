@@ -39,8 +39,10 @@
 </template>
 
 <script setup>
-  import { ref, defineEmits } from "vue"
+  import { ref } from "vue"
   import ButtonSearch from "../components/ButtonSearch.vue";
+  import { useDataBaseStore } from "../stores/dataBase";
+  import router from "../router";
 
 const title = ref("")
 const autor = ref("")
@@ -48,7 +50,7 @@ const tutor = ref("")
 const startYear = ref("")
 const endYear = ref("")
 const errorMessage = ref("")
-const emit = defineEmits(['buscar-avanzada']);
+const dataBaseStore = useDataBaseStore();
 
 const handleSubmit = async () => {
 
@@ -82,7 +84,8 @@ const handleSubmit = async () => {
     startYear: startYear.value,
     endYear: endYear.value
   };
-  emit('buscar-avanzada', criterios);
+  await dataBaseStore.searchAdvanced(criterios);
+  router.push('/vistaDocs');
 }
 
 </script>

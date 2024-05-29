@@ -1,47 +1,40 @@
 <template>
-    <BusquedaBasica @buscar-basica="realizarBusquedaBasica" />
-    <BusquedaAvanzada @buscar-avanzada="realizarBusquedaAvanzada" />
-    <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed">Resultados acordes a tu búsqueda</h1>
-    <div class="container mt-3 text-center" v-if="dataBaseStore.searchPerformed">
-    <div class="row justify-content-center">
+    <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
+      Resultados acordes a tu búsqueda
+    </h1>
+    <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
+      No se encontraron resultados acordes a tu búsqueda
+      <div>
+        <input type="radio" class="btn-check" name="btnBackButton" id="btnBackBasica" autocomplete="off">
+      <router-link class="btn btn-outline-primary p-3 m-4" for="btnBackButton" to="/">Volver a la búsqueda</router-link>
+      </div>
+    </h1>
+    <div class="container mt-3 text-center" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
+      <div class="row justify-content-center">
         <div class="col-8" v-for="item of dataBaseStore.documents" :key="item.id">
-            <div class="border mt-3 p-2 d-flex flex-column align-items-center">
-                <h6>Título:</h6>
-                <div>{{ item.title }}</div>
-                <h6>Nombre del autor:</h6>
-                <div>{{ item.autor }}</div>
-                <h6>Tutor o sinodal encargado:</h6>
-                <div>{{ item.tutor }}</div>
-                <h6>Año de publicación:</h6>
-                <div>{{ item.year }}</div>
-                <h6>Link de descarga:</h6>
-                <div>{{ item.name }}</div>
-            </div>
+          <div class="border p-2 d-flex flex-column align-items-center">
+            <h6>Título:</h6>
+            <div>{{ item.title }}</div>
+            <h6>Autor:</h6>
+            <div>{{ item.autor }}</div>
+            <h6>Link de descarga:</h6>
+            <div>{{ item.name }}</div>
+          </div>
         </div>
+        <div>
+          <input type="radio" class="btn-check" name="btnBackButton" id="btnBackBasica" autocomplete="off">
+          <router-link class="btn btn-outline-primary p-3 m-4" for="btnBackButton" to="/">Volver a la búsqueda</router-link>
+        </div>
+      </div>
     </div>
-</div>
-</template>
-
-<script setup>
-import { useDataBaseStore } from '../stores/dataBase';
-import BusquedaBasica from './BusquedaBasica.vue';
-import BusquedaAvanzada from './BusquedaAvanzada.vue';
-import { onMounted } from 'vue';
-
-
-const dataBaseStore = useDataBaseStore();
-
-const realizarBusquedaBasica = async (queryText) => {
-  await dataBaseStore.searchBasic(queryText);
-};
-
-const realizarBusquedaAvanzada = async (criterios) => {
-  await dataBaseStore.searchAdvanced(criterios);
-};
-onMounted(() => {
-  dataBaseStore.getUrls();
-});
-</script>
+  </template>
+  
+  <script setup>
+  import { useDataBaseStore } from '../stores/dataBase';
+  
+  const dataBaseStore = useDataBaseStore();
+  </script>
+  
 
 <style>
 .container {
