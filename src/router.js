@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "./stores/user";
+import { useDataBaseStore } from "./stores/dataBase";
 
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
@@ -24,6 +25,8 @@ const requireAuth = async (to, from, next) => {
     userStore.loadingSession = false;
 };
 const requireSearchResults = (to, from, next) => {
+    const userStore = useUserStore();
+    const dataBaseStore = useDataBaseStore();
     if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
         next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
     } else {
