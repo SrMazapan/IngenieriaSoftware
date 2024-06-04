@@ -2,22 +2,33 @@
     <div class="d-flex justify-content-center">
       <div class="card m-3" style="width: 100%; max-width: 600px;">
         <div class="card-body">
+          <div>
+            <h4>Sube tu propia tesis en este espacio.</h4>
+          </div>
           <form @submit.prevent="handleSubmit"> 
             <fieldset>
               <div class="mb-3">
-                <input type="text" placeholder="Ingrese URL de su documento" v-model="url">
+                <label for="URLDocument" class="form-label">URL</label>
+                <input type="text" id="TextUrl" class="form-control" placeholder="Ingrese URL de su documento" v-model="url">
+
+                <!-- <label for="TextTitle" class="form-label" >Título exacto</label>
+                    <input type="text" id="TextTitle" class="form-control" placeholder="Título o tema" v-model="title"> -->
               </div>
               <div class="mb-3">
-                <input type="text" placeholder="Ingrese el titulo exacto" v-model="title">
+                <label for="TitleDocument" class="form-label">Título exacto de su documento</label>
+                <input type="text" id="TextTitle" class="form-control" placeholder="Ingrese el título exacto" v-model="title">
               </div>
               <div class="mb-3">
-                <input type="text" placeholder="Ingrese el nombre del autor o autores" v-model="autor">
+                <label for="AutorDocument" class="form-label">Autor(es) </label>
+                <input type="text" id="TextAutor" class="form-control" placeholder="Ingrese el nombre del autor o autores" v-model="autor">
               </div>
               <div class="mb-3">
-                <input type="text" placeholder="Ingrese el nombre del tutor o sinodal encargado" v-model="tutor">
+                <label for="TutorDocument" class="form-label">Tutor(es) o Sinodal(es)</label>
+                <input type="text" id="TextAutor" class="form-control" placeholder="Ingrese el nombre del tutor o sinodal encargado" v-model="tutor">
               </div>
               <div class="mb-3">
-                <input type="number" placeholder="Ingrese el año de realización" v-model="year">
+                <label for="YearDocument" class="form-label">Año de realización</label>
+                <input type="number" id="NumberYear" class="form-control" placeholder="Ingrese el año de realización" v-model="year">
               </div>
               <button type="submit" class="btn btn-primary">Agregar</button>
             </fieldset>
@@ -25,6 +36,9 @@
         </div>
       </div>
     </div>
+    <div v-if="errorMessage" class="custom-error-message">
+        {{ errorMessage }}
+  </div>
   </template>
   
   <script setup>
