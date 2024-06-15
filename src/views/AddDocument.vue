@@ -3,11 +3,11 @@
       <div class="card m-3" style="width: 100%; max-width: 600px;">
         <div class="card-body">
           <div>
-            <h4>Sube tu propia tesis en este espacio.</h4>
+            <h4 style="text-align: center;">Sube tu propia tesis en este espacio.</h4>
           </div>
           <form @submit.prevent="handleSubmit"> 
             <fieldset>
-              <div class="mb-3">
+              <div class="m-3">
                 <label for="URLDocument" class="form-label">URL</label>
                 <input type="text" id="TextUrl" class="form-control" placeholder="Ingrese URL de su documento" v-model="url">
 

@@ -6,9 +6,10 @@ import {
     // sendEmailVerification,
     signOut,
 } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import router from "../router";
 import { useDataBaseStore } from './dataBase'
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const useUserStore = defineStore("userStore", {
     state: () => ({
@@ -35,6 +36,31 @@ export const useUserStore = defineStore("userStore", {
                 this.loadingUser = false;
             }
         },
+        async setUser(user){
+            try{
+                const docRef = doc(db, "users", user.uid)
+                const docSpan = await getDoc(docRef)
+
+                if(docSpan.exists()){
+                    this.userData = { ...docSpan.data() }
+                }else{
+                    await setDoc(docRef, { 
+                        email: user.email,
+                        uid: user.uid, 
+                        displayName: user.displayName,
+                        photoURL: user.photoURL, 
+                    });
+                    this.userData = { 
+                        email: user.email,
+                        uid: user.uid, 
+                        displayName: user.displayName,
+                        photoURL: user.photoURL, 
+                    };
+                }
+            }catch(error){
+                console.log(error);
+            }
+        },
         async loginUser(email, password) {
             this.loadingUser = true;
             try {
@@ -43,7 +69,7 @@ export const useUserStore = defineStore("userStore", {
                     email,
                     password
                 );
-                this.userData = { email: user.email, uid: user.uid };
+                this.setUser(user)
                 router.push("/");
             } catch (error) {
                 console.log(error.code);

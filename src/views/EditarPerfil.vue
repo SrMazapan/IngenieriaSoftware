@@ -10,7 +10,7 @@
                     </label>
                     <!--<input id="profilePicInput" type="file" style="display: none;" @change="handleProfilePicChange">-->
                 </div>
-                <h1 class="card-title" style="text-align: center;">Editar Perfil</h1>
+                <h1 class="card-title" style="text-align: center;">Perfil de usuario</h1>
                 <form @submit.prevent="handleSubmit">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre (s)</label>
