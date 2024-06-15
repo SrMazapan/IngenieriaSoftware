@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "./stores/user";
+import { useDataBaseStore } from "./stores/dataBase";
 
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
@@ -10,6 +11,7 @@ import BusquedaBasica from "./views/BusquedaBasica.vue";
 import BusquedaAvanzada from "./views/BusquedaAvanzada.vue";
 import EditarPerfil from "./views/EditarPerfil.vue";
 import AddDocument from "./views/AddDocument.vue";
+import VistaDocs from "./views/VistaDocs.vue";
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();
@@ -22,6 +24,15 @@ const requireAuth = async (to, from, next) => {
     }
     userStore.loadingSession = false;
 };
+const requireSearchResults = (to, from, next) => {
+    const userStore = useUserStore();
+    const dataBaseStore = useDataBaseStore();
+    if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
+        next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
+    } else {
+        next("/"); // Redirigir al usuario a la página principal u otra página adecuada
+    }
+};
 
 const routes = [
     { path: "/", component: Home, beforeEnter: requireAuth },
@@ -29,10 +40,12 @@ const routes = [
     { path: "/register", component: Register },
     { path: "/restorePassword", component: RestorePass },
     { path: "/verifyEmail", component: VerifyEmail },
-    { path: "/busquedaBasica", component: BusquedaBasica },
-    { path: "/busquedaAvanzada", component: BusquedaAvanzada },
+    { path: "/busquedaBasica", component: BusquedaBasica, beforeEnter: requireAuth },
+    { path: "/busquedaAvanzada", component: BusquedaAvanzada, beforeEnter: requireAuth },
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
-    { path: "/addDocument", component: AddDocument },
+    { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
+    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireSearchResults },
+    
 ];
 
 const router = createRouter({

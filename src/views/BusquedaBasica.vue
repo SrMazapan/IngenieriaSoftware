@@ -1,5 +1,6 @@
 <template>
   <ButtonSearch/>
+  
   <div class="d-flex justify-content-center">
   <div class="card m-3" style="width: 100%; max-width: 600px;">
       <div class="card-body">
@@ -10,16 +11,7 @@
                   <label for="TextInput" class="form-label" >Escribe una palabra o frase relacionada con tu busqueda.</label>
                   <input type="text" id="TextInput" class="form-control" placeholder="Tesis, Autores, materias." v-model="word">
                   </div>
-                  <!-- <div class="mb-3">
-                      <label for="disabledSelect" class="form-label">Campo de búsqueda</label>
-                      <select id="disabledSelect" class="form-select" v-model="searchField">
-                          <option>Todos los campos</option>
-                          <option>Título exacto</option>
-                          <option>Título</option>
-                          <option>Autor</option>
-                          <option>Materia</option>
-                      </select>
-                  </div> -->
+
                   <button type="submit" class="btn btn-primary">Buscar</button>
               </fieldset>
           </form>
@@ -34,13 +26,13 @@
 
 <script setup>
 import { ref } from "vue"
-import buttonSearch from "../components/buttonSearch.vue";
-import ButtonSearch from "../components/buttonSearch.vue";
-// import { useUserStore } from "../stores/user";
-// const userStore = useUserStore();
+import ButtonSearch from "../components/ButtonSearch.vue";
+import { useDataBaseStore } from "../stores/dataBase";
+import router from "../router";
 
 const word = ref("")
 const errorMessage = ref("")
+const dataBaseStore =   useDataBaseStore();
 
 const handleSubmit = async () => {
 
@@ -49,7 +41,9 @@ if (!word.value) {
   setTimeout(() => {errorMessage.value = ''}, 2000)
   return
 }
-
+await dataBaseStore.searchBasic(word.value);
+router.push('/vistaDocs');
 }
+
 
 </script>

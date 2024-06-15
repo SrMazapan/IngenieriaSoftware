@@ -8,14 +8,7 @@
             en texto completo a diversos recursos de información académica. En el Repositorio se pueden consultar tesis 
             elaboradas en esta institucion de educación superior. Navega por nuestras secciones y descubre todo lo que 
             tenemos para ofrecerte.</p>      
-            <p v-if="dataBaseStore.loadingDoc">Loading Docs...</p>  
-            <ul v-else>
-                <li v-for="item of dataBaseStore.documents" :key="item.id">
-                    {{ item.id }} - {{ item.name }}
-                    <br> 
-                    {{ item.short }} 
-                </li>
-            </ul>
+            
     </div>
     <div class="d-flex flex-column text-center">
         <hr class="my-4">

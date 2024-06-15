@@ -21,6 +21,9 @@
                         <router-link class="nav-link active btn btn-success m-2" to="/editarPerfil">Perfil</router-link>
                     </li>
                     <li class="nav-item" v-if="userStore.userData">
+                        <router-link class="nav-link active btn btn-success m-2" to="/addDocument">Agregar Tesis</router-link>
+                    </li>
+                    <li class="nav-item" v-if="userStore.userData">
                         <button @click="userStore.logoutUser" class="nav-link active btn btn-danger m-2" style="width: auto;">Logout</button>
                     </li>
                 </ul>
