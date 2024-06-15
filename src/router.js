@@ -12,6 +12,7 @@ import BusquedaAvanzada from "./views/BusquedaAvanzada.vue";
 import EditarPerfil from "./views/EditarPerfil.vue";
 import AddDocument from "./views/AddDocument.vue";
 import VistaDocs from "./views/VistaDocs.vue";
+import NavBar from './components/NavBar.vue';
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();

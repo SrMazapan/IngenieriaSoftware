@@ -145,12 +145,13 @@ export const useDataBaseStore = defineStore('dataBase', {
 
         const normalizedTitleTokens = criterios.title ? normalizeText(criterios.title) : [];
         const normalizedAuthorTokens = criterios.autor ? normalizeText(criterios.autor) : [];
+        const normalizedTutor = criterios.tutor ? normalizeText(criterios.tutor).join(' ') : '';
 
         const filteredDocs = allDocs.filter((doc) => {
-          const docTokens = doc.tokens;
+          const docTokens = doc.tokens || [];
           const titleMatch = normalizedTitleTokens.every(token => docTokens.includes(token));
           const authorMatch = normalizedAuthorTokens.every(token => docTokens.includes(token));
-          const tutorMatch = criterios.tutor ? doc.tutor.toLowerCase() === criterios.tutor.toLowerCase() : true;
+          const tutorMatch = criterios.tutor ? doc.tutor.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === normalizedTutor : true;
           return titleMatch && authorMatch && tutorMatch;
         });
 

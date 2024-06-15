@@ -2,8 +2,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { createPinia } from "pinia";
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import './css/App.css'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import '@mdi/font/css/materialdesignicons.min.css';
+import './css/App.css';
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)

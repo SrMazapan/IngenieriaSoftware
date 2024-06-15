@@ -12,12 +12,25 @@
   }
   
   .btn-custom {
-    width: 100px; /* Ancho del botón */
-    height: 100px; /* Altura del botón */
+    width: 50px; /* Ancho del botón */
+    height: 50px; /* Altura del botón */
     padding: 20px; /* Relleno interno del botón */
   }
   
   /* Estilos personalizados para el icono */
   .icon-custom {
-    font-size: 2.5rem; /* Tamaño del icono */
+    font-size: 1.5rem; /* Tamaño del icono */
   }
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  #app {
+    min-height: 100%;
+    background-image: url('../Logo/4855443.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
