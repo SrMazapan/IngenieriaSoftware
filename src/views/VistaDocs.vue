@@ -1,17 +1,17 @@
 <template>
+  <div>
     <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
       Resultados acordes a tu búsqueda
     </h1>
     <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
       No se encontraron resultados acordes a tu búsqueda
-      <div>
-        <input type="radio" class="btn-check" name="btnBackButton" id="btnBackBasica" autocomplete="off">
-      <router-link class="btn btn-outline-primary p-3 m-4" for="btnBackButton" to="/">Volver a la búsqueda</router-link>
-      </div>
     </h1>
+    <div class="text-center" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
+      <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
+    </div>
     <div class="container mt-3 text-center" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
       <div class="row justify-content-center">
-        <div class="col-8" v-for="item of dataBaseStore.documents" :key="item.id">
+        <div class="col-8 mb-3" v-for="item of dataBaseStore.documents" :key="item.id">
           <div class="border p-2 d-flex flex-column align-items-center">
             <h6>Título:</h6>
             <div>{{ item.title }}</div>
@@ -21,20 +21,19 @@
             <div>{{ item.name }}</div>
           </div>
         </div>
-        <div>
-          <input type="radio" class="btn-check" name="btnBackButton" id="btnBackBasica" autocomplete="off">
-          <router-link class="btn btn-outline-primary p-3 m-4" for="btnBackButton" to="/">Volver a la búsqueda</router-link>
+        <div class="text-center">
+          <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { useDataBaseStore } from '../stores/dataBase';
-  
-  const dataBaseStore = useDataBaseStore();
-  </script>
-  
+  </div>
+</template>
+
+<script setup>
+import { useDataBaseStore } from '../stores/dataBase';
+
+const dataBaseStore = useDataBaseStore();
+</script>
 
 <style>
 .container {
@@ -58,5 +57,4 @@
 .p-2 {
     padding: 1rem;
 }
-
 </style>
