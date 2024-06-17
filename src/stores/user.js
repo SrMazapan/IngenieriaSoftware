@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import {
     createUserWithEmailAndPassword,
+    getAuth,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     // sendEmailVerification,
@@ -8,8 +9,9 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import router from "../router";
-import { useDataBaseStore } from './dataBase'
+//import { useDataBaseStore } from './dataBase'
 import { doc, getDoc, setDoc } from "firebase/firestore";
+
 
 export const useUserStore = defineStore("userStore", {
     state: () => ({
@@ -18,7 +20,15 @@ export const useUserStore = defineStore("userStore", {
         loadingSession: true,
     }),
     actions: {
-        async registerUser(email, password) {
+        async registerUser(email, password, nombre, appa, apma, fechanac, rol) {
+            console.log('email: ',email);
+            console.log('password: ',password);
+            console.log('nombre: ',nombre);
+            console.log('appa: ',appa);
+            console.log('apma: ',apma);
+            console.log('fechanac: ',fechanac);
+            console.log('rol: ',rol);
+
             this.loadingUser = true;
             try {
                 const { user } = await createUserWithEmailAndPassword(
@@ -26,38 +36,52 @@ export const useUserStore = defineStore("userStore", {
                     email,
                     password
                 );
-                // await sendEmailVerification
-                this.userData = { email: user.email, uid: user.uid };
+                console.log("Usuario creado:", user);
+                //Guarda los datos adicionales en firestore
+                if (!user.email || !user.uid || !nombre || !appa || !apma || !fechanac || !rol) {
+                    throw new Error('Missing required fields.');
+                }
+                
+                const docRef = doc(db, "users", user.uid);
+                const userData = {
+                    email: user.email,
+                    uid: user.uid,
+                    nombre: nombre,
+                    appa: appa,
+                    apma: apma,
+                    fechanac: fechanac,
+                    rol: rol
+                };
+                console.log('Saving user data:', userData);
+                await setDoc(docRef, userData);
+                console.log('User data saved to Firestore.'); 
                 router.push("/");
             } catch (error) {
+                console.log("error ya sabes donde");
                 console.log(error.code);
-                return error.code
+                return error.code;
             } finally {
                 this.loadingUser = false;
             }
         },
-        async setUser(user){
-            try{
-                const docRef = doc(db, "users", user.uid)
-                const docSpan = await getDoc(docRef)
-
-                if(docSpan.exists()){
-                    this.userData = { ...docSpan.data() }
-                }else{
-                    await setDoc(docRef, { 
+        async setUser(user) {
+            try {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+        
+                if (docSnap.exists()) {
+                    this.userData = { ...docSnap.data() };
+                } else {
+                    await setDoc(docRef, {
                         email: user.email,
-                        uid: user.uid, 
-                        displayName: user.displayName,
-                        photoURL: user.photoURL, 
+                        uid: user.uid,
                     });
-                    this.userData = { 
+                    this.userData = {
                         email: user.email,
-                        uid: user.uid, 
-                        displayName: user.displayName,
-                        photoURL: user.photoURL, 
+                        uid: user.uid,
                     };
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },
@@ -80,9 +104,6 @@ export const useUserStore = defineStore("userStore", {
             }
         },
         async logoutUser() {
-            const dataBaseStore = useDataBaseStore();
-            dataBaseStore.$reset();
-
             try {
                 await signOut(auth);
                 this.userData = null;
@@ -94,25 +115,19 @@ export const useUserStore = defineStore("userStore", {
 
         async currentUser() {
             return new Promise((resolve, reject) => {
-                const unsuscribe = onAuthStateChanged(
-                    auth,
-                    (user) => {
-                        if (user) {
-                            console.log(user);
-                            this.userData = {
-                                email: user.email,
-                                uid: user.uid,
-                            };
-                        } else {
-                            this.userData = null;
-                            const dataBaseStore = useDataBaseStore();
-                            dataBaseStore.$reset();
-                        }
-                        this.loadingSession = false; 
+                const unsubscribe = onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        this.userData = {
+                            email: user.email,
+                            uid: user.uid,
+                        };
                         resolve(user);
-                    },
-                    (e) => reject(e)
-                );
+                    } else {
+                        this.userData = null;
+                    }
+                    this.loadingSession = false;
+                }, reject);
+                unsubscribe();
             });
         },
     },
