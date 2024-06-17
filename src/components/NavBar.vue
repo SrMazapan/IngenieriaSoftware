@@ -30,7 +30,7 @@
               </label>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><router-link class="dropdown-item" to="/editarPerfil">Editar Perfil</router-link></li>
+              <li><router-link class="dropdown-item" to="/VerPerfil">Perfil</router-link></li>
               <li><hr class="dropdown-divider"></li>
               <li><button @click="userStore.logoutUser" class="dropdown-item">Logout</button></li>
             </ul>

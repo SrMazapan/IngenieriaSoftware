@@ -1,6 +1,6 @@
 // dataBase.js
 
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { defineStore } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { db } from '../firebaseConfig';
