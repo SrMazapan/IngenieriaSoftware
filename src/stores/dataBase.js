@@ -53,6 +53,7 @@ export const useDataBaseStore = defineStore('dataBase', {
           ...new Set([
             ...normalizeText(documentData.title),
             ...normalizeText(documentData.autor),
+            ...normalizeText(documentData.coment),
           ]),
         ];
 
@@ -62,6 +63,7 @@ export const useDataBaseStore = defineStore('dataBase', {
           autor: documentData.autor,
           tutor: documentData.tutor,
           year: documentData.year,
+          coment: documentData.coment,
           user: auth.currentUser.uid,
           tokens: tokens,
         };
@@ -146,13 +148,15 @@ export const useDataBaseStore = defineStore('dataBase', {
         const normalizedTitleTokens = criterios.title ? normalizeText(criterios.title) : [];
         const normalizedAuthorTokens = criterios.autor ? normalizeText(criterios.autor) : [];
         const normalizedTutor = criterios.tutor ? normalizeText(criterios.tutor).join(' ') : '';
+        const normalizedComent = criterios.coment ? normalizeText(criterios.coment) : [];
 
         const filteredDocs = allDocs.filter((doc) => {
           const docTokens = doc.tokens || [];
           const titleMatch = normalizedTitleTokens.every(token => docTokens.includes(token));
           const authorMatch = normalizedAuthorTokens.every(token => docTokens.includes(token));
           const tutorMatch = criterios.tutor ? doc.tutor.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') === normalizedTutor : true;
-          return titleMatch && authorMatch && tutorMatch;
+          const comentMatch = normalizedComent.every(token => docTokens.includes(token));
+          return titleMatch && authorMatch && tutorMatch && comentMatch;
         });
 
         this.documents = filteredDocs;
