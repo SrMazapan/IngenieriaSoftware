@@ -51,8 +51,10 @@ import { ref, onMounted } from 'vue';
 import { useUserStore } from '../stores/user';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { useRouter } from 'vue-router';
 
-const userStore = useUserStore()
+const userStore = useUserStore();
+const router = useRouter();
 
 const nombre = ref('')
 const appa = ref('')
@@ -99,7 +101,7 @@ const handleSubmit = async () => {
             });
             console.log("Perfil actualizado correctamente");
             // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-            router.push('/verPerfil');
+            router.push("/verPerfil");
         }
     } catch (error) {
         console.error("Error updating user profile:", error);
