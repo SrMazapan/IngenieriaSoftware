@@ -25,9 +25,9 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown" v-if="userStore.userData">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <label for="Profile" class="btn btn-outline-secondary rounded-circle btn-custom">
-                <i class="bi bi-person-up icon-custom"></i>
-              </label>
+              <fieldset class="btn btn-outline-secondary rounded-circle btn-custom">
+                <i id="Profile" class="bi bi-person-up icon-custom"></i>
+              </fieldset>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><router-link class="dropdown-item" to="/VerPerfil">Perfil</router-link></li>

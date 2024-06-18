@@ -9,26 +9,27 @@
             <fieldset>
               <div class="m-3">
                 <label for="URLDocument" class="form-label">URL</label>
-                <input type="text" id="TextUrl" class="form-control" placeholder="Ingrese URL de su documento" v-model="url">
-
-                <!-- <label for="TextTitle" class="form-label" >Título exacto</label>
-                    <input type="text" id="TextTitle" class="form-control" placeholder="Título o tema" v-model="title"> -->
+                <input type="text" id="URLDocument" class="form-control" placeholder="Ingrese URL de su documento" v-model="url">
               </div>
               <div class="mb-3">
                 <label for="TitleDocument" class="form-label">Título exacto de su documento</label>
-                <input type="text" id="TextTitle" class="form-control" placeholder="Ingrese el título exacto" v-model="title">
+                <input type="text" id="TitleDocument" class="form-control" placeholder="Ingrese el título exacto" v-model="title">
               </div>
               <div class="mb-3">
                 <label for="AutorDocument" class="form-label">Autor(es) </label>
-                <input type="text" id="TextAutor" class="form-control" placeholder="Ingrese el nombre del autor o autores" v-model="autor">
+                <input type="text" id="AutorDocument" class="form-control" placeholder="Ingrese el nombre del autor o autores" v-model="autor">
               </div>
               <div class="mb-3">
                 <label for="TutorDocument" class="form-label">Tutor(es) o Sinodal(es)</label>
-                <input type="text" id="TextAutor" class="form-control" placeholder="Ingrese el nombre del tutor o sinodal encargado" v-model="tutor">
+                <input type="text" id="TutorDocument" class="form-control" placeholder="Ingrese el nombre del tutor o sinodal encargado" v-model="tutor">
               </div>
               <div class="mb-3">
                 <label for="YearDocument" class="form-label">Año de realización</label>
-                <input type="number" id="NumberYear" class="form-control" placeholder="Ingrese el año de realización" v-model="year">
+                <input type="number" id="YearDocument" class="form-control" placeholder="Ingrese el año de realización" v-model="year">
+              </div>
+              <div class="mb-3">
+                <label for="Coment" class="form-label">Descripción breve</label>
+                <textarea id="Coment" class="form-control" rows="4" v-model="coment"></textarea>
               </div>
               <button type="submit" class="btn btn-primary">Agregar</button>
             </fieldset>
@@ -51,11 +52,12 @@
   const autor = ref('');
   const tutor = ref('');
   const year = ref('');
+  const coment = ref('');
   const errorMessage = ref('');
   const successMessage = ref('');
   
   const handleSubmit = async () => {
-    if (!url.value || !title.value || !autor.value || !tutor.value || !year.value) {
+    if (!url.value || !title.value || !autor.value || !tutor.value || !year.value || !coment.value) {
       errorMessage.value = "Todos los campos son obligatorios.";
       setTimeout(() => { errorMessage.value = ''; }, 2000);
       return;
@@ -67,6 +69,7 @@
       autor: autor.value,
       tutor: tutor.value,
       year: parseInt(year.value, 10),
+      coment: coment.value,
     };
   
     try {
@@ -79,6 +82,7 @@
       autor.value = '';
       tutor.value = '';
       year.value = '';
+      coment.value='';
     } catch (error) {
       errorMessage.value = "Ocurrió un error al agregar el documento.";
       setTimeout(() => { errorMessage.value = ''; }, 2000);
