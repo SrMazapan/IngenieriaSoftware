@@ -3,9 +3,14 @@
       <div class="card m-3" style="width: 50rem;">
         <div class="card-body">
           <div class="d-flex justify-content-center" style="left: 500px; top: 50%;">
-            <label for="profilePicInput" class="btn btn-outline-secondary rounded-circle btn-custom">
-              <i class="bi bi-person-up icon-custom"></i>
-            </label>
+            <template v-if="profilePicUrl">
+              <img :src="profilePicUrl" alt="Foto de perfil" class="img-profile">
+            </template>
+            <template v-else>
+              <label for="profilePicInput" class="btn btn-outline-secondary rounded-circle btn-custom">
+                <i class="bi bi-person-up icon-custom"></i>
+              </label>
+            </template>
           </div>
           <h1 class="card-title" style="text-align: center;">Perfil de usuario</h1>
           <div class="mb-3">
@@ -47,6 +52,7 @@
   const apma = ref('')
   const fechanac = ref('')
   const rol = ref('')
+  const profilePicUrl = ref('')
   
   const fetchUserProfile = async () => {
     try {
@@ -61,6 +67,7 @@
           apma.value = data.apma || '';
           fechanac.value = data.fechanac || '';
           rol.value = data.rol || '';
+          profilePicUrl.value = data.profilePicUrl || '';
         }
       }
     } catch (error) {
@@ -85,6 +92,16 @@
   /* Estilos personalizados para el icono */
   .icon-custom {
     font-size: 2.5rem; /* Tamaño del icono */
+  }
+
+  .img-profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  left: -10px; /* Ajusta este valor según sea necesario */
+  top: -5px; /* Ajusta este valor según sea necesario */
   }
   </style>
   
