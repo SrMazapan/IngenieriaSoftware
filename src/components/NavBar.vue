@@ -26,7 +26,12 @@
           <li class="nav-item dropdown" v-if="userStore.userData">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <fieldset class="btn btn-outline-secondary rounded-circle btn-custom">
-                <i id="Profile" class="bi bi-person-up icon-custom"></i>
+                <template v-if="profilePicUrl">
+                  <img :src="profilePicUrl" alt="Foto de perfil" class="img-profile-navbar">
+                </template>
+                <template v-else>
+                  <i id="Profile" class="bi bi-person-up icon-custom"></i>
+                </template>             
               </fieldset>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -46,15 +51,43 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useUserStore } from '../stores/user';
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 
 const userStore = useUserStore();
+const profilePicUrl = ref('');
+
+const fetchUserProfile = async () => {
+  try {
+    const user = userStore.userData;
+    if (user && user.uid) {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        profilePicUrl.value = data.profilePicUrl || '';
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
 
 onMounted(() => {
   userStore.currentUser();
+  fetchUserProfile();
 });
+
+watch(
+  () => userStore.userData,
+  () => {
+    fetchUserProfile();
+  },
+  { immediate: true }
+);
 </script>
 
 <style>
@@ -62,4 +95,13 @@ onMounted(() => {
     margin: 0.5rem;
   }
   
+  .img-profile-navbar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  left: -13px; /* Ajusta este valor según sea necesario */
+  top: -9px; /* Ajusta este valor según sea necesario */
+  }
 </style>

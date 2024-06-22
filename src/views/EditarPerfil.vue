@@ -2,11 +2,15 @@
     <div class="d-flex justify-content-center">
         <div class="card m-3" style="width: 50rem;">
             <div class="card-body">
-                <div class="d-flex justify-content-center" style="left: 500px; top: 50%;" >
+                <div v-if="!profilePicUrl" class="d-flex justify-content-center" style="left: 500px; top: 50%;" >
                     <label for="profilePicInput" class="btn btn-outline-secondary rounded-circle btn-custom">
                         <i class="bi bi-person-up icon-custom"></i>
                     </label>
-                    <!--<input id="profilePicInput" type="file" style="display: none;" @change="handleProfilePicChange">-->
+                    <input id="profilePicInput" type="file" style="display: none;" @change="handleProfilePicChange">
+                </div>
+                <div v-else class="d-flex justify-content-center">
+                    <img :src="profilePicUrl" alt="Foto de perfil" class="img-preview" @click="triggerFileInput">
+                    <input id="profilePicInput" ref="fileInput" type="file" style="display: none;" @change="handleProfilePicChange">
                 </div>
                 <h1 class="card-title" style="text-align: center;">Perfil de usuario</h1>
                 <form @submit.prevent="handleSubmit">
@@ -50,15 +54,22 @@
 import { ref, onMounted } from 'vue';
 import { useUserStore } from '../stores/user';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db, storage } from "../firebaseConfig";
+import { useRouter } from 'vue-router';
+import { uploadBytes, getDownloadURL, ref as storageRef } from "firebase/storage";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
+const router = useRouter();
 
 const nombre = ref('')
 const appa = ref('')
 const apma = ref('')
 const fechanac = ref('')
 const rol = ref('')
+const profilePic = ref(null)
+const profilePicUrl = ref('')
+const profilePicPreviewUrl = ref('');
+const fileInput = ref(null);
 
 const fetchUserProfile = async () => {
     try {
@@ -73,6 +84,7 @@ const fetchUserProfile = async () => {
                 apma.value = data.apma || '';
                 fechanac.value = data.fechanac || '';
                 rol.value = data.rol || '';
+                profilePicUrl.value = data.profilePicUrl || '';
             }
         }
     } catch (error) {
@@ -84,10 +96,33 @@ onMounted(() => {
     fetchUserProfile();
 });
 
+const handleProfilePicChange = (event) => {
+    profilePic.value = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        profilePicPreviewUrl.value = reader.result;
+    };
+    reader.readAsDataURL(profilePic.value);
+
+    // Mostrar la imagen cargada en lugar del botón
+    profilePicUrl.value = URL.createObjectURL(profilePic.value);
+};
+
+const triggerFileInput = () => {
+    fileInput.value.click();
+};
+
 const handleSubmit = async () => {
     // Aquí podrías añadir la lógica para actualizar el perfil del usuario en Firestore
     try {
         const user = userStore.userData;
+        let profilePicUrlValue = profilePicUrl.value;
+        if (profilePic.value) {
+            const storageReference = storageRef(storage, `profile_pics/${user.uid}`);
+            await uploadBytes(storageReference, profilePic.value);
+            profilePicUrlValue = await getDownloadURL(storageReference);
+        }
+
         if (user && user.uid) {
             const docRef = doc(db, "users", user.uid);
             await updateDoc(docRef, {
@@ -96,10 +131,11 @@ const handleSubmit = async () => {
                 apma: apma.value,
                 fechanac: fechanac.value,
                 rol: rol.value,
+                profilePicUrl: profilePicUrlValue,
             });
             console.log("Perfil actualizado correctamente");
             // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-            router.push('/verPerfil');
+            router.push("/verPerfil");
         }
     } catch (error) {
         console.error("Error updating user profile:", error);
@@ -119,11 +155,17 @@ const handleSubmit = async () => {
 .icon-custom {
   font-size: 2.5rem; /* Tamaño del icono */
 }
+
+.img-preview {
+  width: 150px; /* Ancho de la vista previa */
+  height: 150px; /* Altura de la vista previa */
+  object-fit: cover; /* Ajuste de la imagen */
+  border-radius: 50%; /* Borde redondeado */
+  margin-bottom: 15px; /* Espaciado inferior */
+}
+
 </style>
 
-<!--
-Falta colocar validaciones en editar perfil, que no sean campos vacios y que sean campos correctos
-Que despues de apretar el boton de actualizar perfil, envie a una nueva pantalla para decir que ya fueron modificados
-Hacer que el usuario pueda cargar una imagen de perfil
+<!-- 
 Subir archivo y guardarlo en alguna parte
 -->

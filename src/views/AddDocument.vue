@@ -8,8 +8,8 @@
           <form @submit.prevent="handleSubmit"> 
             <fieldset>
               <div class="m-3">
-                <label for="URLDocument" class="form-label">URL</label>
-                <input type="text" id="URLDocument" class="form-control" placeholder="Ingrese URL de su documento" v-model="url">
+                <label for="file" class="form-label">Archivo PDF</label>
+                <input type="file" id="file" class="form-control" @change="handleFileUpload">
               </div>
               <div class="mb-3">
                 <label for="TitleDocument" class="form-label">Título exacto de su documento</label>
@@ -39,15 +39,20 @@
     </div>
     <div v-if="errorMessage" class="custom-error-message">
         {{ errorMessage }}
-  </div>
+    </div>
+    <div v-if="successMessage" class="custom-success-message">
+      {{ successMessage }}
+    </div>
   </template>
   
   <script setup>
   import { ref } from 'vue';
   import { useDataBaseStore } from '../stores/dataBase';
+  import { storage } from "../firebaseConfig";
+  import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
   
   const dataBaseStore = useDataBaseStore();
-  const url = ref('');
+  const file = ref(null);
   const title = ref('');
   const autor = ref('');
   const tutor = ref('');
@@ -55,29 +60,41 @@
   const coment = ref('');
   const errorMessage = ref('');
   const successMessage = ref('');
+
+  const handleFileUpload = (event) => {
+    file.value = event.target.files[0];
+  };
   
   const handleSubmit = async () => {
-    if (!url.value || !title.value || !autor.value || !tutor.value || !year.value || !coment.value) {
+    if (!file.value || !title.value || !autor.value || !tutor.value || !year.value || !coment.value) {
       errorMessage.value = "Todos los campos son obligatorios.";
       setTimeout(() => { errorMessage.value = ''; }, 2000);
       return;
     }
   
-    const documentData = {
-      url: url.value,
+    try {
+
+      //Subir archivo a firebase storage
+      const fileRef = storageRef(storage, `theses/${file.value.name}`);
+      await uploadBytes(fileRef, file.value);
+      const fileURL = await getDownloadURL(fileRef);
+
+      const documentData = {
+      url: fileURL,
       title: title.value,
       autor: autor.value,
       tutor: tutor.value,
       year: parseInt(year.value, 10),
       coment: coment.value,
     };
-  
-    try {
+
+    //Agregar datos del documento a firestore
       await dataBaseStore.addUrl(documentData);
       successMessage.value = "Documento agregado exitosamente.";
       setTimeout(() => { successMessage.value = ''; }, 2000);
       // Clear the form
-      url.value = '';
+
+      file.value = null;
       title.value = '';
       autor.value = '';
       tutor.value = '';
@@ -88,6 +105,10 @@
       setTimeout(() => { errorMessage.value = ''; }, 2000);
       console.log(error);
     }
-  }
+  };
   </script>
   
+  <!--
+  Poner un boton en name donde este mismo sea un "Ver" y al presionar se muestre el documento, este tenemos que hacer un hipervinculo.
+  Al mostrar los resultados de busqueda, solo muestre el titulo de la tesis y un boton donde diga "ver".
+  -->
