@@ -26,15 +26,17 @@ const requireAuth = async (to, from, next) => {
     }
     userStore.loadingSession = false;
 };
-const requireSearchResults = (to, from, next) => {
-    const userStore = useUserStore();
-    const dataBaseStore = useDataBaseStore();
-    if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
-        next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
-    } else {
-        next("/"); // Redirigir al usuario a la página principal u otra página adecuada
-    }
-};
+// const requireSearchResults = (to, from, next) => {
+//     const userStore = useUserStore();
+//     const dataBaseStore = useDataBaseStore();
+//     if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
+//         next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
+//     } else if (to.path === "/vistaDocs" && !dataBaseStore.searchPerformed){
+//         next("/"); // Redirigir al usuario a la página principal u otra página adecuada
+//     }else{
+//         next();
+//     }
+// };
 
 const routes = [
     { path: "/", component: Home, beforeEnter: requireAuth },
@@ -47,7 +49,7 @@ const routes = [
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
     { path: "/verPerfil", component: VerPerfil, beforeEnter: requireAuth },
     { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
-    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireSearchResults },
+    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireAuth },
     
 ];
 

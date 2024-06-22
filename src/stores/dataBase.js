@@ -7,14 +7,6 @@ import { db } from '../firebaseConfig';
 import { auth } from '../firebaseConfig';
 import { nanoid } from 'nanoid';
 
-const normalizeText = (text) => {
-  return text.toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s]/gi, '')
-    .split(/\s+/)
-    .filter(token => token.length > 0);
-};
 
 export const useDataBaseStore = defineStore('dataBase', {
   state: () => ({
@@ -167,4 +159,12 @@ export const useDataBaseStore = defineStore('dataBase', {
       }
     },
   },
-});
+})
+const normalizeText = (text) => {
+  return text.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/gi, '')
+    .split(/\s+/)
+    .filter(token => token.length > 0);
+};;
