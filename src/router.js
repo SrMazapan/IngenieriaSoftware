@@ -13,6 +13,7 @@ import EditarPerfil from "./views/EditarPerfil.vue";
 import AddDocument from "./views/AddDocument.vue";
 import VistaDocs from "./views/VistaDocs.vue";
 import NavBar from './components/NavBar.vue';
+import Faq from './views/Faq.vue';
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();
@@ -46,6 +47,7 @@ const routes = [
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
     { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
     { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireSearchResults },
+    { path: "/faq", component: Faq, beforeEnter: requireAuth },
     
 ];
 

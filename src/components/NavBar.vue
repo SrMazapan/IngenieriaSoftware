@@ -20,6 +20,9 @@
           <li class="nav-item" v-if="userStore.userData">
             <router-link class="nav-link active btn btn-success m-2" to="/addDocument">Agregar Tesis</router-link>
           </li>
+          <li class="nav-item" v-if="userStore.userData">
+            <router-link class="nav-link active btn btn-success m-2" to="/faq">FAQ</router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
