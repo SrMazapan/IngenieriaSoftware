@@ -92,9 +92,5 @@ const handleSubmit = async () => {
 </script>
 
 <style>
-.custom-error-message {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-}
+
 </style>

@@ -10,6 +10,7 @@ import VerifyEmail from './views/VerifyEmail.vue'
 import BusquedaBasica from "./views/BusquedaBasica.vue";
 import BusquedaAvanzada from "./views/BusquedaAvanzada.vue";
 import EditarPerfil from "./views/EditarPerfil.vue";
+import VerPerfil from "./views/VerPerfil.vue";
 import AddDocument from "./views/AddDocument.vue";
 import VistaDocs from "./views/VistaDocs.vue";
 import NavBar from './components/NavBar.vue';
@@ -26,15 +27,17 @@ const requireAuth = async (to, from, next) => {
     }
     userStore.loadingSession = false;
 };
-const requireSearchResults = (to, from, next) => {
-    const userStore = useUserStore();
-    const dataBaseStore = useDataBaseStore();
-    if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
-        next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
-    } else {
-        next("/"); // Redirigir al usuario a la página principal u otra página adecuada
-    }
-};
+// const requireSearchResults = (to, from, next) => {
+//     const userStore = useUserStore();
+//     const dataBaseStore = useDataBaseStore();
+//     if (dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0) {
+//         next(); // Permitir el acceso si se han realizado búsquedas y hay resultados
+//     } else if (to.path === "/vistaDocs" && !dataBaseStore.searchPerformed){
+//         next("/"); // Redirigir al usuario a la página principal u otra página adecuada
+//     }else{
+//         next();
+//     }
+// };
 
 const routes = [
     { path: "/", component: Home, beforeEnter: requireAuth },
@@ -45,10 +48,10 @@ const routes = [
     { path: "/busquedaBasica", component: BusquedaBasica, beforeEnter: requireAuth },
     { path: "/busquedaAvanzada", component: BusquedaAvanzada, beforeEnter: requireAuth },
     { path: "/editarPerfil", component: EditarPerfil, beforeEnter: requireAuth },
+    { path: "/verPerfil", component: VerPerfil, beforeEnter: requireAuth },
     { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
-    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireSearchResults },
-    { path: "/faq", component: Faq, beforeEnter: requireAuth },
-    
+    { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireAuth },
+    { path: "/faq", component: Faq, beforeEnter: requireAuth }, 
 ];
 
 const router = createRouter({

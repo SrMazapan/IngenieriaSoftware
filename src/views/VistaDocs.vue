@@ -3,12 +3,6 @@
     <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
       Resultados acordes a tu búsqueda
     </h1>
-    <h1 class="text-center mt-3 text-secondary" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
-      No se encontraron resultados acordes a tu búsqueda
-    </h1>
-    <div class="text-center" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
-      <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
-    </div>
     <div class="container mt-3 text-center" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length > 0">
       <div class="row justify-content-center">
         <div class="col-8 mb-3" v-for="item of dataBaseStore.documents" :key="item.id">
@@ -21,10 +15,16 @@
             <div>{{ item.name }}</div>
           </div>
         </div>
-        <div class="text-center">
-          <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
-        </div>
       </div>
+      <div class="text-center">
+        <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
+      </div>
+    </div>
+    <div class="text-center mt-5" v-if="dataBaseStore.searchPerformed && dataBaseStore.documents.length === 0">
+      <h2>No se encontraron resultados acordes a tu búsqueda</h2>
+      <img src="/src/Logo/notFound.png" alt="No se encontraron resultados" style="justify-content:center; width: 300px; height: auto; margin-block: 1cm;">
+      <br>
+      <router-link class="btn btn-outline-primary p-3 m-4" to="/">Volver a la búsqueda</router-link>
     </div>
   </div>
 </template>

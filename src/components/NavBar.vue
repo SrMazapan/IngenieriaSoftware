@@ -28,12 +28,17 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown" v-if="userStore.userData">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <label for="Profile" class="btn btn-outline-secondary rounded-circle btn-custom">
-                <i class="bi bi-person-up icon-custom"></i>
-              </label>
+              <fieldset class="btn btn-outline-secondary rounded-circle btn-custom">
+                <template v-if="profilePicUrl">
+                  <img :src="profilePicUrl" alt="Foto de perfil" class="img-profile-navbar">
+                </template>
+                <template v-else>
+                  <i id="Profile" class="bi bi-person-up icon-custom"></i>
+                </template>             
+              </fieldset>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><router-link class="dropdown-item" to="/editarPerfil">Editar Perfil</router-link></li>
+              <li><router-link class="dropdown-item" to="/VerPerfil">Perfil</router-link></li>
               <li><hr class="dropdown-divider"></li>
               <li><button @click="userStore.logoutUser" class="dropdown-item">Logout</button></li>
             </ul>
@@ -49,15 +54,43 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useUserStore } from '../stores/user';
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 
 const userStore = useUserStore();
+const profilePicUrl = ref('');
+
+const fetchUserProfile = async () => {
+  try {
+    const user = userStore.userData;
+    if (user && user.uid) {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        profilePicUrl.value = data.profilePicUrl || '';
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
 
 onMounted(() => {
   userStore.currentUser();
+  fetchUserProfile();
 });
+
+watch(
+  () => userStore.userData,
+  () => {
+    fetchUserProfile();
+  },
+  { immediate: true }
+);
 </script>
 
 <style>
@@ -65,4 +98,13 @@ onMounted(() => {
     margin: 0.5rem;
   }
   
+  .img-profile-navbar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  left: -13px; /* Ajusta este valor según sea necesario */
+  top: -9px; /* Ajusta este valor según sea necesario */
+  }
 </style>
