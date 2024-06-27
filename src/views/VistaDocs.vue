@@ -11,8 +11,8 @@
             <div>{{ item.title }}</div>
             <h6>Autor:</h6>
             <div>{{ item.autor }}</div>
-            <h6>Link de descarga:</h6>
-            <div>{{ item.name }}</div>
+            <h6>Link:</h6>
+            <button @click="goToLink(item.name)" class="btn btn-primary">ver</button>
           </div>
         </div>
       </div>
@@ -33,6 +33,10 @@
 import { useDataBaseStore } from '../stores/dataBase';
 
 const dataBaseStore = useDataBaseStore();
+
+function goToLink(url) {
+  window.location.href = url;
+}
 </script>
 
 <style>
