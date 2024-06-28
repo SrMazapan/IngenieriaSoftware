@@ -15,6 +15,8 @@ import AddDocument from "./views/AddDocument.vue";
 import VistaDocs from "./views/VistaDocs.vue";
 import NavBar from './components/NavBar.vue';
 import Faq from './views/Faq.vue';
+import VerTesis from './views/VerTesis.vue';
+
 
 const requireAuth = async (to, from, next) => {
     const userStore = useUserStore();
@@ -52,6 +54,8 @@ const routes = [
     { path: "/addDocument", component: AddDocument, beforeEnter: requireAuth },
     { path: "/vistaDocs", component: VistaDocs, beforeEnter: requireAuth },
     { path: "/faq", component: Faq, beforeEnter: requireAuth }, 
+    { path: "/verTesis", component: VerTesis, beforeEnter: requireAuth }, 
+
 ];
 
 const router = createRouter({
