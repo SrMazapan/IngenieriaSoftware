@@ -21,7 +21,7 @@
             <router-link class="nav-link active btn btn-success m-2" to="/addDocument">Agregar Tesis</router-link>
           </li>
           <li class="nav-item" v-if="userStore.userData">
-            <router-link class="nav-link active btn btn-success m-2" to="/faq">FAQ</router-link>
+            <router-link class="nav-link active btn btn-success m-2" to="/verTesis">Tesis</router-link>
           </li>
         </ul>
 
@@ -39,8 +39,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><router-link class="dropdown-item" to="/VerPerfil">Perfil</router-link></li>
+              <li><router-link class="dropdown-item" to="/Faq">FAQ's</router-link></li>
               <li><hr class="dropdown-divider"></li>
               <li><button @click="userStore.logoutUser" class="dropdown-item">Logout</button></li>
+              
             </ul>
           </li>
         </ul>
