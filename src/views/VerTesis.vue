@@ -11,12 +11,20 @@
     </ul>
     
     <!-- Modal de confirmación -->
-    <div v-if="showConfirmModal" class="modal">
-      <div class="modal-content">
-        <p>¿Estás seguro de eliminar el documento?</p>
-        <div>
-          <button @click="eliminarTesis(selectedTesisId)" class="btn btn-primary">Sí</button>
-          <button @click="cancelarEliminar" class="btn btn-secondary">No</button>
+    <div v-if="showConfirmModal" class="modal" tabindex="-1">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">¿Estás seguro de eliminar el documento?</h5>
+            <button type="button" class="btn-close" @click="cancelarEliminar" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Este documento se eliminará de manera permanente, por lo que no se podrá recuperar.</p>
+          </div>
+          <div class="modal-footer">
+            <button @click="eliminarTesis(selectedTesisId)" class="btn btn-primary">Sí</button>
+            <button @click="cancelarEliminar" class="btn btn-secondary">No</button>
+          </div>
         </div>
       </div>
     </div>
